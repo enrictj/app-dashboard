@@ -28,6 +28,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+### High RAM / many Node processes?
+
+If Next.js picks the wrong workspace root (e.g. you have `C:\Users\Enric\package-lock.json`), the dev server may watch your entire user folder and use almost all RAM. If RAM is still high, try `npm run dev:webpack` instead. Run only **one** dev server at a time.
+
 ## Scripts
 
 | Command | Description |
