@@ -8,8 +8,6 @@ async function main() {
   await prisma.habit.deleteMany();
   await prisma.calendarEvent.deleteMany();
   await prisma.note.deleteMany();
-  await prisma.quickNote.deleteMany();
-
   const today = startOfDay(new Date());
 
   const habits = await Promise.all([
@@ -114,10 +112,6 @@ async function main() {
         tags: JSON.stringify(["inbox"]),
       },
     ],
-  });
-
-  await prisma.quickNote.create({
-    data: { content: "Review stats dashboard layout tomorrow." },
   });
 
   console.log("Seed completed.");

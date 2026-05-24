@@ -6,13 +6,6 @@ export async function getNotes() {
   });
 }
 
-export async function getQuickNotes() {
-  return prisma.quickNote.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 10,
-  });
-}
-
 export async function searchNotes(query: string) {
   if (!query.trim()) return getNotes();
   const q = query.toLowerCase();

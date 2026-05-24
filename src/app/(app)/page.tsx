@@ -5,25 +5,21 @@ import { TodayHabitsWidget } from "@/features/dashboard/widgets/today-habits";
 import { MiniCalendarWidget } from "@/features/dashboard/widgets/mini-calendar";
 import { ProductivityStatsWidget } from "@/features/dashboard/widgets/productivity-stats";
 import { CuriosityWidget } from "@/features/dashboard/widgets/curiosity";
-import { QuickNotesWidget } from "@/features/dashboard/widgets/quick-notes";
 import { DeadlinesWidget } from "@/features/dashboard/widgets/deadlines";
 import { getTodayHabits, getAllCompletions } from "@/services/habits.service";
 import { getEventsForMonth, getUpcomingDeadlines } from "@/services/events.service";
-import { getQuickNotes } from "@/services/notes.service";
 import { getDailyFact } from "@/lib/facts";
 import { completionRate } from "@/lib/habits";
 import { t } from "@/lib/i18n/ca";
 
 export default async function DashboardPage() {
   const now = new Date();
-  const [habits, events, deadlines, quickNotes, completions] =
-    await Promise.all([
-      getTodayHabits(),
-      getEventsForMonth(now),
-      getUpcomingDeadlines(5),
-      getQuickNotes(),
-      getAllCompletions(),
-    ]);
+  const [habits, events, deadlines, completions] = await Promise.all([
+    getTodayHabits(),
+    getEventsForMonth(now),
+    getUpcomingDeadlines(5),
+    getAllCompletions(),
+  ]);
 
   const weekStart = startOfWeek(now, { weekStartsOn: 1 });
   const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
@@ -65,7 +61,6 @@ export default async function DashboardPage() {
           eventsThisWeek={eventsThisWeek}
         />
         <CuriosityWidget fact={getDailyFact(now)} />
-        <QuickNotesWidget notes={quickNotes} />
         <DeadlinesWidget
           deadlines={deadlines.map((d) => ({
             id: d.id,

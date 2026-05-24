@@ -41,14 +41,3 @@ export async function deleteNote(id: string) {
   revalidatePath("/");
   revalidatePath("/notes");
 }
-
-export async function createQuickNote(content: string) {
-  if (!content.trim()) return;
-  await prisma.quickNote.create({ data: { content: content.trim() } });
-  revalidatePath("/");
-}
-
-export async function deleteQuickNote(id: string) {
-  await prisma.quickNote.delete({ where: { id } });
-  revalidatePath("/");
-}
