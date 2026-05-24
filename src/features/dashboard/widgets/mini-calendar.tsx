@@ -1,9 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
-  format,
-  isSameDay,
   isSameMonth,
   isToday,
   startOfMonth,
@@ -11,13 +9,14 @@ import {
   subMonths,
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { WidgetHeader } from "@/components/widgets/widget-header";
 import { getCalendarGrid } from "@/lib/dates";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CATEGORY_COLORS, type EventCategory } from "@/types";
+import { formatDateCa } from "@/lib/i18n/dates";
+import { t } from "@/lib/i18n/ca";
 
 type EventDot = { date: Date; category: string };
 
@@ -28,7 +27,7 @@ export function MiniCalendarWidget({ events }: { events: EventDot[] }) {
   const eventsByDay = useMemo(() => {
     const map = new Map<string, string[]>();
     for (const e of events) {
-      const key = format(e.date, "yyyy-MM-dd");
+      const key = formatDateCa(e.date, "yyyy-MM-dd");
       const colors = map.get(key) ?? [];
       const color =
         CATEGORY_COLORS[e.category as EventCategory] ?? "#6366f1";
@@ -41,8 +40,8 @@ export function MiniCalendarWidget({ events }: { events: EventDot[] }) {
   return (
     <GlassCard className="col-span-4 row-span-2 lg:col-span-3">
       <WidgetHeader
-        title="Calendar"
-        subtitle={format(month, "MMMM yyyy")}
+        title={t.dashboard.calendar}
+        subtitle={formatDateCa(month, "MMMM yyyy")}
         action={
           <div className="flex gap-1">
             <Button
@@ -63,13 +62,13 @@ export function MiniCalendarWidget({ events }: { events: EventDot[] }) {
         }
       />
       <div className="grid grid-cols-7 gap-1 text-center text-[10px] text-muted-foreground">
-        {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+        {t.calendar.weekdaysMini.map((d, i) => (
           <span key={`${d}-${i}`}>{d}</span>
         ))}
       </div>
       <div className="mt-1 grid grid-cols-7 gap-1">
         {days.map((day) => {
-          const key = format(day, "yyyy-MM-dd");
+          const key = formatDateCa(day, "yyyy-MM-dd");
           const dots = eventsByDay.get(key) ?? [];
           return (
             <div
@@ -80,7 +79,7 @@ export function MiniCalendarWidget({ events }: { events: EventDot[] }) {
                 isToday(day) && "bg-primary/15 font-semibold text-primary"
               )}
             >
-              {format(day, "d")}
+              {formatDateCa(day, "d")}
               {dots.length > 0 && (
                 <div className="absolute bottom-0.5 flex gap-0.5">
                   {dots.slice(0, 3).map((c) => (

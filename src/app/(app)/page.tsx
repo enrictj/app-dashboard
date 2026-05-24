@@ -1,4 +1,5 @@
-import { format, startOfWeek, endOfWeek, isWithinInterval } from "date-fns";
+import { formatDateCa } from "@/lib/i18n/dates";
+import { startOfWeek, endOfWeek, isWithinInterval } from "date-fns";
 import { PageHeader } from "@/components/layout/page-header";
 import { TodayHabitsWidget } from "@/features/dashboard/widgets/today-habits";
 import { MiniCalendarWidget } from "@/features/dashboard/widgets/mini-calendar";
@@ -6,12 +7,13 @@ import { ProductivityStatsWidget } from "@/features/dashboard/widgets/productivi
 import { CuriosityWidget } from "@/features/dashboard/widgets/curiosity";
 import { QuickNotesWidget } from "@/features/dashboard/widgets/quick-notes";
 import { DeadlinesWidget } from "@/features/dashboard/widgets/deadlines";
-import { getTodayHabits } from "@/services/habits.service";
+import { getTodayHabits, getAllCompletions } from "@/services/habits.service";
 import { getEventsForMonth, getUpcomingDeadlines } from "@/services/events.service";
 import { getQuickNotes } from "@/services/notes.service";
 import { getDailyFact } from "@/lib/facts";
 import { completionRate } from "@/lib/habits";
-import { getAllCompletions } from "@/services/habits.service";
+import { t } from "@/lib/i18n/ca";
+
 export default async function DashboardPage() {
   const now = new Date();
   const [habits, events, deadlines, quickNotes, completions] =
@@ -37,8 +39,8 @@ export default async function DashboardPage() {
   return (
     <div>
       <PageHeader
-        title="Dashboard"
-        description={format(now, "EEEE, MMMM d")}
+        title={t.dashboard.title}
+        description={formatDateCa(now, "EEEE, d MMMM")}
       />
       <div className="grid auto-rows-[minmax(120px,auto)] grid-cols-4 gap-4 lg:grid-cols-12">
         <TodayHabitsWidget

@@ -5,7 +5,8 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { WidgetHeader } from "@/components/widgets/widget-header";
 import { Input } from "@/components/ui/input";
 import { createQuickNote } from "@/features/notes/actions";
-import { format } from "date-fns";
+import { formatDateCa } from "@/lib/i18n/dates";
+import { t } from "@/lib/i18n/ca";
 
 export function QuickNotesWidget({
   notes,
@@ -26,10 +27,10 @@ export function QuickNotesWidget({
 
   return (
     <GlassCard className="col-span-4 row-span-2 lg:col-span-4">
-      <WidgetHeader title="Quick notes" subtitle="Capture fast" />
+      <WidgetHeader title={t.dashboard.quickNotes} subtitle={t.dashboard.captureFast} />
       <form onSubmit={handleSubmit} className="mb-3">
         <Input
-          placeholder="Type and press Enter..."
+          placeholder={t.dashboard.quickNotesPlaceholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           disabled={pending}
@@ -44,7 +45,7 @@ export function QuickNotesWidget({
           >
             <p className="text-sm">{note.content}</p>
             <p className="mt-1 text-[10px] text-muted-foreground">
-              {format(new Date(note.createdAt), "MMM d, h:mm a")}
+              {formatDateCa(new Date(note.createdAt), "d MMM, HH:mm")}
             </p>
           </div>
         ))}

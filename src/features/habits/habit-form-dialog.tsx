@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { createHabit } from "@/features/habits/actions";
 import { HABIT_CATEGORIES } from "@/types";
+import { habitCategoryLabel, t } from "@/lib/i18n/ca";
 
 const COLORS = ["#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#f43f5e", "#ec4899"];
 
@@ -49,17 +50,17 @@ export function HabitFormDialog() {
         render={
           <Button size="sm" className="gap-1.5">
             <Plus className="h-4 w-4" />
-            New habit
+            {t.habits.newHabit}
           </Button>
         }
       />
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create habit</DialogTitle>
+          <DialogTitle>{t.habits.createHabit}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">{t.habits.name}</Label>
             <Input
               id="name"
               value={name}
@@ -68,7 +69,7 @@ export function HabitFormDialog() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="desc">Description</Label>
+            <Label htmlFor="desc">{t.habits.descriptionLabel}</Label>
             <Input
               id="desc"
               value={description}
@@ -77,7 +78,7 @@ export function HabitFormDialog() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Frequency</Label>
+              <Label>{t.habits.frequency}</Label>
               <Select
                 value={frequency}
                 onValueChange={(v) =>
@@ -88,13 +89,13 @@ export function HabitFormDialog() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="daily">Daily</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="daily">{t.habits.daily}</SelectItem>
+                  <SelectItem value="weekly">{t.habits.weekly}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Category</Label>
+              <Label>{t.habits.category}</Label>
               <Select
                 value={category}
                 onValueChange={(v) => v && setCategory(v)}
@@ -105,7 +106,7 @@ export function HabitFormDialog() {
                 <SelectContent>
                   {HABIT_CATEGORIES.map((c) => (
                     <SelectItem key={c} value={c}>
-                      {c}
+                      {habitCategoryLabel(c)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -113,7 +114,7 @@ export function HabitFormDialog() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label>Color</Label>
+            <Label>{t.habits.color}</Label>
             <div className="flex gap-2">
               {COLORS.map((c) => (
                 <button
@@ -130,7 +131,7 @@ export function HabitFormDialog() {
             </div>
           </div>
           <Button type="submit" className="w-full" disabled={pending}>
-            Create
+            {t.habits.create}
           </Button>
         </form>
       </DialogContent>

@@ -11,19 +11,20 @@ import {
   StickyNote,
   PanelLeftClose,
   PanelLeft,
-  Sparkles,
+  LayoutGrid,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUiStore } from "@/store/ui-store";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { t } from "@/lib/i18n/ca";
 
 const navItems = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/habits", label: "Habits", icon: Target },
-  { href: "/calendar", label: "Calendar", icon: Calendar },
-  { href: "/stats", label: "Stats", icon: BarChart3 },
-  { href: "/notes", label: "Notes", icon: StickyNote },
+  { href: "/", label: t.nav.dashboard, icon: LayoutDashboard },
+  { href: "/habits", label: t.nav.habits, icon: Target },
+  { href: "/calendar", label: t.nav.calendar, icon: Calendar },
+  { href: "/stats", label: t.nav.stats, icon: BarChart3 },
+  { href: "/notes", label: t.nav.notes, icon: StickyNote },
 ];
 
 export function Sidebar() {
@@ -37,25 +38,20 @@ export function Sidebar() {
       transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
       className="fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-border/60 bg-sidebar/80 backdrop-blur-xl"
     >
-      <div className="flex h-14 items-center gap-2 border-b border-border/60 px-4">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <Sparkles className="h-4 w-4" />
-        </div>
+      <motion.div className="flex h-14 items-center gap-2 border-b border-border/60 px-4">
+        <motion.div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <LayoutGrid className="h-4 w-4" />
+        </motion.div>
         {!sidebarCollapsed && (
-          <motion.div
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="min-w-0"
+            className="truncate text-sm font-semibold tracking-tight"
           >
-            <p className="truncate text-sm font-semibold tracking-tight">
-              Nexus
-            </p>
-            <p className="truncate text-[10px] text-muted-foreground">
-              Personal OS
-            </p>
-          </motion.div>
+            {t.appName}
+          </motion.p>
         )}
-      </div>
+      </motion.div>
 
       <nav className="flex-1 space-y-1 p-3">
         {navItems.map((item) => {
@@ -106,7 +102,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="border-t border-border/60 p-3">
+      <motion.div className="border-t border-border/60 p-3">
         <Button
           variant="ghost"
           size="sm"
@@ -118,11 +114,11 @@ export function Sidebar() {
           ) : (
             <>
               <PanelLeftClose className="h-4 w-4" />
-              <span>Collapse</span>
+              <span>{t.nav.collapse}</span>
             </>
           )}
         </Button>
-      </div>
+      </motion.div>
     </motion.aside>
   );
 }

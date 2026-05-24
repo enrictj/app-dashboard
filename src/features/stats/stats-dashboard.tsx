@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/glass-card";
-import { format, parseISO } from "date-fns";
+import { t } from "@/lib/i18n/ca";
 import { cn } from "@/lib/utils";
 
 type WeekData = { day: string; completions: number };
@@ -37,7 +37,7 @@ export function StatsDashboard({
     <div className="space-y-6">
       <div className="grid gap-4 lg:grid-cols-2">
         <GlassCard>
-          <h3 className="mb-4 text-sm font-medium">Weekly completions</h3>
+          <h3 className="mb-4 text-sm font-medium">{t.stats.weeklyCompletions}</h3>
           <div className="h-56 min-h-56 min-w-0 w-full">
             <ResponsiveContainer width="100%" height="100%" minHeight={224}>
               <BarChart data={weeklyData}>
@@ -63,7 +63,7 @@ export function StatsDashboard({
         </GlassCard>
 
         <GlassCard>
-          <h3 className="mb-4 text-sm font-medium">Productivity trend</h3>
+          <h3 className="mb-4 text-sm font-medium">{t.stats.productivityTrend}</h3>
           <div className="h-56 min-h-56 min-w-0 w-full">
             <ResponsiveContainer width="100%" height="100%" minHeight={224}>
               <LineChart data={weeklyData}>
@@ -92,7 +92,7 @@ export function StatsDashboard({
       </div>
 
       <GlassCard>
-        <h3 className="mb-4 text-sm font-medium">Activity heatmap</h3>
+        <h3 className="mb-4 text-sm font-medium">{t.stats.activityHeatmap}</h3>
         <div className="overflow-x-auto pb-2">
           <div className="inline-flex flex-wrap gap-1">
             {heatmap.map((cell, i) => (
@@ -118,13 +118,13 @@ export function StatsDashboard({
           </div>
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
-          Last 12 weeks of habit activity
+          {t.stats.last12Weeks}
         </p>
       </GlassCard>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <GlassCard>
-          <h3 className="mb-4 text-sm font-medium">Habit completion %</h3>
+          <h3 className="mb-4 text-sm font-medium">{t.stats.habitCompletion}</h3>
           <div className="space-y-3">
             {habitRates.map((h) => (
               <div key={h.name}>
@@ -149,7 +149,7 @@ export function StatsDashboard({
         </GlassCard>
 
         <GlassCard>
-          <h3 className="mb-4 text-sm font-medium">Most productive days</h3>
+          <h3 className="mb-4 text-sm font-medium">{t.stats.mostProductiveDays}</h3>
           <div className="space-y-2">
             {bestDays.map((d, i) => (
               <div

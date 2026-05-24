@@ -3,6 +3,7 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { WidgetHeader } from "@/components/widgets/widget-header";
 import { TrendingUp, Zap, Target } from "lucide-react";
+import { t } from "@/lib/i18n/ca";
 
 export function ProductivityStatsWidget({
   completionRate,
@@ -15,19 +16,19 @@ export function ProductivityStatsWidget({
 }) {
   const stats = [
     {
-      label: "Habit rate",
+      label: t.dashboard.habitRate,
       value: `${completionRate}%`,
       icon: Target,
       color: "text-violet-400",
     },
     {
-      label: "Active streaks",
+      label: t.dashboard.activeStreaks,
       value: String(activeStreaks),
       icon: Zap,
       color: "text-amber-400",
     },
     {
-      label: "Events this week",
+      label: t.dashboard.eventsThisWeek,
       value: String(eventsThisWeek),
       icon: TrendingUp,
       color: "text-blue-400",
@@ -36,7 +37,7 @@ export function ProductivityStatsWidget({
 
   return (
     <GlassCard className="col-span-4 lg:col-span-2">
-      <WidgetHeader title="Productivity" subtitle="This week" />
+      <WidgetHeader title={t.dashboard.productivity} subtitle={t.dashboard.thisWeek} />
       <div className="grid gap-3">
         {stats.map((stat) => (
           <div

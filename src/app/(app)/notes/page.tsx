@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/layout/page-header";
 import { NotesView } from "@/features/notes/notes-view";
 import { getNotes } from "@/services/notes.service";
+import { t } from "@/lib/i18n/ca";
 
 export default async function NotesPage() {
   const notes = await getNotes();
@@ -8,8 +9,8 @@ export default async function NotesPage() {
   return (
     <div>
       <PageHeader
-        title="Notes"
-        description="Quick capture, markdown, tags, and instant search"
+        title={t.notes.title}
+        description={t.notes.description}
       />
       <NotesView
         notes={notes.map((n) => ({

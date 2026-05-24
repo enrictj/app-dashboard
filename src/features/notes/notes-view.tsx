@@ -22,7 +22,8 @@ import {
   deleteNote,
 } from "@/features/notes/actions";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import { formatDateCa } from "@/lib/i18n/dates";
+import { noteFilterLabel, t } from "@/lib/i18n/ca";
 
 export type NoteItem = {
   id: string;
@@ -73,7 +74,7 @@ export function NotesView({ notes: initialNotes }: { notes: NoteItem[] }) {
   function handleCreate() {
     startTransition(async () => {
       await createNote({
-        title: "Untitled",
+        title: t.notes.untitled,
         content: "",
         tags: ["inbox"],
       });
@@ -99,7 +100,7 @@ export function NotesView({ notes: initialNotes }: { notes: NoteItem[] }) {
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search notes..."
+              placeholder={t.notes.searchPlaceholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="h-9 bg-muted/30 pl-8 text-sm"
@@ -112,9 +113,9 @@ export function NotesView({ notes: initialNotes }: { notes: NoteItem[] }) {
                 variant={filter === f ? "secondary" : "ghost"}
                 size="xs"
                 onClick={() => setFilter(f)}
-                className="capitalize"
+                className=""
               >
-                {f}
+                {noteFilterLabel(f)}
               </Button>
             ))}
           </div>
@@ -145,7 +146,7 @@ export function NotesView({ notes: initialNotes }: { notes: NoteItem[] }) {
                   </span>
                 </div>
                 <span className="truncate text-xs text-muted-foreground">
-                  {note.content.slice(0, 60) || "Empty note"}
+                  {note.content.slice(0, 60) || t.notes.emptyNote}
                 </span>
               </motion.button>
             ))}
@@ -159,7 +160,7 @@ export function NotesView({ notes: initialNotes }: { notes: NoteItem[] }) {
             disabled={pending}
           >
             <Plus className="h-4 w-4" />
-            New note
+            {t.notes.newNote}
           </Button>
         </div>
       </GlassCard>
@@ -226,15 +227,15 @@ export function NotesView({ notes: initialNotes }: { notes: NoteItem[] }) {
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
               onBlur={handleSave}
-              placeholder="Write in markdown..."
+              placeholder={t.notes.writeMarkdown}
               className="min-h-[400px] resize-none border-0 bg-transparent font-mono text-sm shadow-none focus-visible:ring-0"
             />
             <p className="mt-2 text-xs text-muted-foreground">
-              Updated {format(new Date(selected.updatedAt), "MMM d, yyyy")}
+              {t.notes.updated(formatDateCa(new Date(selected.updatedAt), "d MMM yyyy"))}
             </p>
           </>
         ) : (
-          <p className="text-muted-foreground">Select or create a note.</p>
+          <p className="text-muted-foreground">{t.notes.selectOrCreate}</p>
         )}
       </GlassCard>
     </div>

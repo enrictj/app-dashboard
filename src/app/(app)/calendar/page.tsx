@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/layout/page-header";
 import { CalendarView } from "@/features/calendar/calendar-view";
 import { getAllEvents } from "@/services/events.service";
+import { t } from "@/lib/i18n/ca";
 
 export default async function CalendarPage() {
   const events = await getAllEvents();
@@ -8,8 +9,8 @@ export default async function CalendarPage() {
   return (
     <div>
       <PageHeader
-        title="Calendar"
-        description="Exams, deadlines, habits, and personal events"
+        title={t.calendar.title}
+        description={t.calendar.description}
       />
       <CalendarView
         events={events.map((e) => ({

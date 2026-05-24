@@ -1,5 +1,4 @@
 import {
-  format,
   startOfWeek,
   eachDayOfInterval,
   endOfWeek,
@@ -10,8 +9,8 @@ import { StatsDashboard } from "@/features/stats/stats-dashboard";
 import { getHabitsWithCompletions, getAllCompletions } from "@/services/habits.service";
 import { buildHeatmapData, completionRate } from "@/lib/habits";
 import { startOfDay } from "date-fns";
-
-const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+import { formatDateCa } from "@/lib/i18n/dates";
+import { t } from "@/lib/i18n/ca";
 
 export default async function StatsPage() {
   const [habits, completions] = await Promise.all([
@@ -27,7 +26,7 @@ export default async function StatsPage() {
   });
 
   const weeklyData = days.map((day) => ({
-    day: format(day, "EEE"),
+    day: formatDateCa(day, "EEE"),
     completions: completions.filter((c) => {
       const d = startOfDay(c.date);
       return d.getTime() === startOfDay(day).getTime();
@@ -50,13 +49,13 @@ export default async function StatsPage() {
   const bestDays = [...dayCounts.entries()]
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
-    .map(([day, count]) => ({ day: DAY_NAMES[day], count }));
+    .map(([day, count]) => ({ day: t.stats.dayNames[day], count }));
 
   return (
     <div>
       <PageHeader
-        title="Stats"
-        description="Analytics, heatmaps, and productivity trends"
+        title={t.stats.title}
+        description={t.stats.description}
       />
       <StatsDashboard
         weeklyData={weeklyData}

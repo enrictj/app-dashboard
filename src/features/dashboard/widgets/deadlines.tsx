@@ -1,8 +1,12 @@
-import { format, formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
+import { ca as dateFnsCa } from "date-fns/locale";
 import { AlertCircle } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { WidgetHeader } from "@/components/widgets/widget-header";
 import { Badge } from "@/components/ui/badge";
+import { eventCategoryLabel } from "@/lib/i18n/ca";
+import { formatDateCa } from "@/lib/i18n/dates";
+import { t } from "@/lib/i18n/ca";
 import { CATEGORY_COLORS, type EventCategory } from "@/types";
 
 type Deadline = {
@@ -15,10 +19,10 @@ type Deadline = {
 export function DeadlinesWidget({ deadlines }: { deadlines: Deadline[] }) {
   return (
     <GlassCard className="col-span-4 row-span-2 lg:col-span-2">
-      <WidgetHeader title="Upcoming" subtitle="Deadlines & exams" />
+      <WidgetHeader title={t.dashboard.upcoming} subtitle={t.dashboard.deadlinesExams} />
       <div className="space-y-2">
         {deadlines.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Nothing due soon.</p>
+          <p className="text-sm text-muted-foreground">{t.dashboard.nothingDue}</p>
         ) : (
           deadlines.map((d) => {
             const color =
@@ -35,14 +39,15 @@ export function DeadlinesWidget({ deadlines }: { deadlines: Deadline[] }) {
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{d.title}</p>
                   <p className="text-xs text-muted-foreground">
-                    {format(new Date(d.date), "MMM d")} ·{" "}
+                    {formatDateCa(new Date(d.date), "d MMM")} ·{" "}
                     {formatDistanceToNow(new Date(d.date), {
                       addSuffix: true,
+                      locale: dateFnsCa,
                     })}
                   </p>
                 </div>
                 <Badge variant="secondary" className="shrink-0 text-[10px]">
-                  {d.category}
+                  {eventCategoryLabel(d.category)}
                 </Badge>
               </div>
             );

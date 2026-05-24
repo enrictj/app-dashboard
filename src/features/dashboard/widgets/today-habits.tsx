@@ -6,6 +6,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { WidgetHeader } from "@/components/widgets/widget-header";
 import { toggleHabitCompletion } from "@/features/habits/actions";
 import { cn } from "@/lib/utils";
+import { t } from "@/lib/i18n/ca";
 
 type HabitItem = {
   id: string;
@@ -22,12 +23,12 @@ export function TodayHabitsWidget({ habits }: { habits: HabitItem[] }) {
   return (
     <GlassCard className="col-span-4 row-span-2 flex h-full flex-col lg:col-span-3">
       <WidgetHeader
-        title="Today's habits"
-        subtitle={`${completed}/${habits.length} completed`}
+        title={t.dashboard.todayHabits}
+        subtitle={t.dashboard.completed(completed, habits.length)}
       />
       <div className="flex-1 space-y-2 overflow-auto">
         {habits.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No habits yet.</p>
+          <p className="text-sm text-muted-foreground">{t.dashboard.noHabits}</p>
         ) : (
           habits.map((habit, i) => (
             <motion.button

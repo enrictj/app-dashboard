@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { HabitFormDialog } from "@/features/habits/habit-form-dialog";
 import { HabitsView } from "@/features/habits/habits-view";
 import { getHabitsWithCompletions, enrichHabit } from "@/services/habits.service";
+import { t } from "@/lib/i18n/ca";
 
 export default async function HabitsPage() {
   const habits = await getHabitsWithCompletions();
@@ -23,14 +24,12 @@ export default async function HabitsPage() {
   return (
     <div>
       <PageHeader
-        title="Habit Tracker"
-        description="Build consistency with streaks and categories"
+        title={t.habits.title}
+        description={t.habits.description}
         action={<HabitFormDialog />}
       />
       {enriched.length === 0 ? (
-        <p className="text-muted-foreground">
-          No habits yet. Create your first habit to get started.
-        </p>
+        <p className="text-muted-foreground">{t.habits.empty}</p>
       ) : (
         <HabitsView habits={enriched} />
       )}

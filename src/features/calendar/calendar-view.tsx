@@ -2,7 +2,6 @@
 
 import { useMemo, useState, useTransition } from "react";
 import {
-  format,
   isSameDay,
   isSameMonth,
   isToday,
@@ -34,6 +33,8 @@ import { getCalendarGrid } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import { CATEGORY_COLORS, EVENT_CATEGORIES, type EventCategory } from "@/types";
 import { createEvent, deleteEvent } from "@/features/calendar/actions";
+import { formatDateCa } from "@/lib/i18n/dates";
+import { eventCategoryLabel, t } from "@/lib/i18n/ca";
 
 export type CalendarEventItem = {
   id: string;
@@ -77,7 +78,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
     <>
       <GlassCard className="p-6">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">{format(month, "MMMM yyyy")}</h2>
+          <h2 className="text-lg font-semibold">{formatDateCa(month, "MMMM yyyy")}</h2>
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -91,7 +92,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
               size="sm"
               onClick={() => setMonth(startOfMonth(new Date()))}
             >
-              Today
+              {t.calendar.today}
             </Button>
             <Button
               variant="outline"
@@ -104,7 +105,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
         </div>
 
         <div className="mb-2 grid grid-cols-7 gap-2 text-center text-xs font-medium text-muted-foreground">
-          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
+          {t.calendar.weekdaysShort.map((d) => (
             <div key={d}>{d}</div>
           ))}
         </div>
@@ -133,7 +134,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
                     isToday(day) && "text-primary"
                   )}
                 >
-                  {format(day, "d")}
+                  {formatDateCa(day, "d")}
                 </span>
                 <div className="mt-1 space-y-0.5">
                   {dayEv.slice(0, 2).map((ev) => (
@@ -151,7 +152,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
                   ))}
                   {dayEv.length > 2 && (
                     <span className="text-[10px] text-muted-foreground">
-                      +{dayEv.length - 2} more
+                      {t.calendar.more(dayEv.length - 2)}
                     </span>
                   )}
                 </div>
@@ -167,7 +168,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
                 className="h-2 w-2 rounded-full"
                 style={{ backgroundColor: CATEGORY_COLORS[cat] }}
               />
-              {cat}
+              {eventCategoryLabel(cat)}
             </div>
           ))}
         </div>
@@ -180,13 +181,13 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {selectedDay ? format(selectedDay, "EEEE, MMM d") : ""}
+              {selectedDay ? formatDateCa(selectedDay, "EEEE, d MMM") : ""}
             </DialogTitle>
           </DialogHeader>
           <AnimatePresence mode="popLayout">
             <div className="space-y-3">
               {dayEvents.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No events.</p>
+                <p className="text-sm text-muted-foreground">{t.calendar.noEvents}</p>
               ) : (
                 dayEvents.map((ev) => (
                   <motion.div
@@ -199,7 +200,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
                     <div>
                       <p className="text-sm font-medium">{ev.title}</p>
                       <Badge variant="secondary" className="mt-1 text-[10px]">
-                        {ev.category}
+                        {eventCategoryLabel(ev.category)}
                       </Badge>
                     </div>
                     <Button
@@ -208,7 +209,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
                       className="text-destructive"
                       onClick={() => deleteEvent(ev.id)}
                     >
-                      Remove
+                      {t.calendar.remove}
                     </Button>
                   </motion.div>
                 ))
@@ -219,14 +220,14 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
                 onClick={() => setShowCreate(true)}
               >
                 <Plus className="h-4 w-4" />
-                Add event
+                {t.calendar.addEvent}
               </Button>
             </div>
           </AnimatePresence>
           {showCreate && (
             <form onSubmit={handleCreate} className="mt-4 space-y-3 border-t pt-4">
               <div className="space-y-2">
-                <Label>Title</Label>
+                <Label>{t.calendar.titleLabel}</Label>
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -234,7 +235,7 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Category</Label>
+                <Label>{t.habits.category}</Label>
                 <Select
                   value={category}
                   onValueChange={(v) =>
@@ -247,14 +248,14 @@ export function CalendarView({ events }: { events: CalendarEventItem[] }) {
                   <SelectContent>
                     {EVENT_CATEGORIES.map((c) => (
                       <SelectItem key={c} value={c}>
-                        {c}
+                        {eventCategoryLabel(c)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <Button type="submit" disabled={pending} className="w-full">
-                Save event
+                {t.calendar.saveEvent}
               </Button>
             </form>
           )}

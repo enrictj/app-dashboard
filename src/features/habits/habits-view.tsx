@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toggleHabitCompletion, deleteHabit } from "@/features/habits/actions";
 import { cn } from "@/lib/utils";
+import { frequencyLabel, habitCategoryLabel, t } from "@/lib/i18n/ca";
 
 export type HabitRow = {
   id: string;
@@ -55,21 +56,21 @@ export function HabitsView({ habits }: { habits: HabitRow[] }) {
             )}
             <div className="mb-4 flex flex-wrap gap-2">
               <Badge variant="secondary" className="text-[10px]">
-                {habit.frequency}
+                {frequencyLabel(habit.frequency)}
               </Badge>
               <Badge variant="outline" className="text-[10px]">
-                {habit.category}
+                {habitCategoryLabel(habit.category)}
               </Badge>
               {habit.streak > 0 && (
                 <Badge className="gap-1 bg-amber-500/10 text-amber-500 text-[10px]">
                   <Flame className="h-3 w-3" />
-                  {habit.streak} streak
+                  {t.habits.streak(habit.streak)}
                 </Badge>
               )}
             </div>
             <div className="mt-auto flex items-center justify-between">
               <span className="text-xs text-muted-foreground">
-                {habit.totalCompletions} completions
+                {t.habits.completions(habit.totalCompletions)}
               </span>
               <Button
                 size="sm"
@@ -83,7 +84,7 @@ export function HabitsView({ habits }: { habits: HabitRow[] }) {
                     habit.completedToday && "text-emerald-500"
                   )}
                 />
-                {habit.completedToday ? "Done today" : "Complete"}
+                {habit.completedToday ? t.habits.doneToday : t.habits.complete}
               </Button>
             </div>
             <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
@@ -103,3 +104,4 @@ export function HabitsView({ habits }: { habits: HabitRow[] }) {
     </div>
   );
 }
+

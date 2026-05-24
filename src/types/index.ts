@@ -21,12 +21,12 @@ export const CATEGORY_COLORS: Record<EventCategory, string> = {
 };
 
 export const HABIT_CATEGORIES = [
-  "Health",
-  "Learning",
-  "Productivity",
+  "Salut",
+  "Aprenentatge",
+  "Productivitat",
   "Fitness",
   "Mindfulness",
-  "Other",
+  "Altres",
 ] as const;
 
 export type HabitCategory = (typeof HABIT_CATEGORIES)[number];
