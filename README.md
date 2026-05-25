@@ -1,4 +1,4 @@
-# Nexus — Personal Productivity Dashboard
+# Personal Productivity Dashboard
 
 A local-first, desktop-first personal productivity dashboard and second brain. Built with Next.js, SQLite, and a polished dark UI.
 
