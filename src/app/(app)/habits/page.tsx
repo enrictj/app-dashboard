@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { HabitFormDialog } from "@/features/habits/habit-form-dialog";
 import { HabitsView } from "@/features/habits/habits-view";
 import { getHabitsWithCompletions, enrichHabit } from "@/services/habits.service";
+import { getLast7DaySlots, getCurrentWeekSlots } from "@/lib/habit-dates";
 import { t } from "@/lib/i18n/ca";
 
 export default async function HabitsPage() {
@@ -18,6 +19,8 @@ export default async function HabitsPage() {
       streak: e.streak,
       completedToday: e.completedToday,
       totalCompletions: h.completions.length,
+      last7: getLast7DaySlots(h.completions),
+      week: getCurrentWeekSlots(h.completions),
     };
   });
 
@@ -28,11 +31,7 @@ export default async function HabitsPage() {
         description={t.habits.description}
         action={<HabitFormDialog />}
       />
-      {enriched.length === 0 ? (
-        <p className="text-muted-foreground">{t.habits.empty}</p>
-      ) : (
-        <HabitsView habits={enriched} />
-      )}
+      <HabitsView habits={enriched} />
     </div>
   );
 }
